@@ -72,3 +72,18 @@ Scheduler.detect_conflicts(\*schedules) accepts one or more Schedule objects, fl
 start_A < end_B AND start_B < end_A
 
 Times are converted from "HH:MM" strings to minutes since midnight via \_slot_to_minutes() so the arithmetic is straightforward. Strict < (not <=) means tasks that share only an endpoint are not flagged — a clean handoff is not a conflict. Warnings are returned as strings rather than raised as exceptions so the app keeps running and the owner sees all conflicts at once.
+
+## Testing PawPal+
+
+Using {python3 -m pytest}
+Pytest runs the following tests that cover multiple fields.
+
+test_mark_complete_changes_status : ScheduledTask.mark_complete() flips is_completed from False to True - 5/5 stars reliability testing.
+
+test_adding_task_increases_scheduler_task_count : Scheduler.add_task() grows the task pool from 0 to 1 - 5/5 stars reliability testing.
+
+test_sort_by_time_returns_chronological_order : Scheduler.sort_by_time() orders tasks by HH:MMascending; tasks with no time sort last - 5/5 stars reliability testing.
+
+test_mark_complete_daily_task_creates_next_day_task : Marking a daily task complete returns a new Task with due_date advanced by exactly 1 day - 5/5 stars reliability testing.
+
+test_detect_conflicts_flags_overlapping_time_slots : Scheduler.detect_conflicts() flags tasks whose time intervals overlap, and returns no warnings for clean back-to-back tasks - 5/5 stars reliability testing.
