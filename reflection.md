@@ -13,6 +13,22 @@
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
 
+Data Classes (pure data holders using @dataclass)
+
+Pet — Stores a pet's profile: name, species, breed, age, and any special needs. Has get_info() to return a readable summary.
+
+Task — Represents a single care task with its category (walk, feeding, meds, etc.), how long it takes (duration), how urgent it is (priority 1–5), how often it recurs (frequency), and optional notes. Has get_summary() for a one-liner description.
+
+ScheduledTask — Wraps a Task once it's been placed into a time slot. Tracks whether it's been completed. Has mark_complete() and get_label() for display.
+
+Regular Classes (hold behavior and mutable state)
+
+Owner — Stores the pet owner's name, how many minutes per day they have available, and their care preferences. Manages a list of pets via add_pet() / get_pets().
+
+Schedule — The finished daily plan for a given date. Holds an ordered list of ScheduledTask items. Knows how to compute total time used (get_total_duration()), display the plan (display_plan()), and produce a short summary (generate_summary()).
+
+Scheduler — The planning engine. Holds the Owner, Pet, a pool of Task objects, and a time_limit pulled from the owner's availability. Responsible for adding/removing tasks, sorting and filtering them by priority, building a Schedule that respects constraints (generate_schedule()), and explaining its choices in plain English (explain_reasoning()).
+
 **b. Design changes**
 
 - Did your design change during implementation?
